@@ -22,7 +22,7 @@ Bruk denne klassen til å opprette et objekt for hver av de følgende filmene:
 
  
 
-Skriv ut all informasjon om hver film med formatet; "<title> was released in <year> and currently has a score of <score>", ved å benytte de opprettede objektene. 
+Skriv ut all informasjon om hver film med formatet; "title was released in <year> and currently has a score of <score>", ved å benytte de opprettede objektene. 
 
  B) Metoder 
 
