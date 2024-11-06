@@ -1,4 +1,4 @@
-# Oppgave 1
+# Oppgave 1 A)
 
 # Opprett en klasse for filmer med instansvariabler for filmtittel, utgivelsesår og score.
 class Movies:
