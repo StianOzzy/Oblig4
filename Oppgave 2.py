@@ -1,28 +1,32 @@
-# Oppgave 2
 
-# Cards index
-
-class Cards:
-    def __init__(self, type, value, index):
-        self.type = type
-        self.value = value
-        self.index = index
-    
-    def get_info(self):
-        return f"{self.type}, {self.value}, {self.index}"
-
-    def print_card(self):
-        return f"{self.type}____ \n|     |\n|  {self.value}  |\n|     |\n|____{self.type}|\n"
+# -----------------------   initialization     -----------------------
+    # function: Create a deck of cards
 
 
-card1 = Cards("♠", 1, 1)
-card2 = Cards("♥", 2, 2)
+    # function: Shuffle the order of the cards
 
 
-print(" _____ \n"
-      "|     |\n"
-      "|     |\n"
-      "|     |\n"
-      "|_____|\n")
+# -----------------------   gameplay functions  -----------------------
+    # function: deal card
+        # must obtain card in player inventory or dealer inventory
+        # must remove card from "cardbank" inventory
 
-print(print_card(card1))
+    # display hands
+        # displays current hands of player and dealer (minus dealer first card)
+
+    # check sum
+        # check for blackjack or bust
+
+# -----------------------          Game         -----------------------
+
+    # Deal initial cards
+        # two cards from "cardbank" inventory to player hand
+        # two cards from "cardbank" inventory to dealer hand. Only one revealed to player
+
+    # General gameplay loop
+        # 1 check sum
+
+        # 2 ask hit or stand
+            # if hit
+            # -> deal card from "cardbank" inventory to player hand
+            # check sum
