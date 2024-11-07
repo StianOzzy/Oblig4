@@ -112,7 +112,7 @@ def deal_to_player():
     for i in range(len(player_hand)):
         cardstring = str(player_hand[i][0])+ "" + str(player_hand[i][1])
         playerhandvisual = playerhandvisual+ "  " +cardstring
-    show_player_hands(f"Players hand:\n{playerhandvisual}")
+    show_player_hands(f"Players Cards:\n{playerhandvisual}")
     print("Player hand total value:", check_sum(player_hand),"\n")
 
 # ___ Hit or Stand ___
@@ -125,8 +125,17 @@ def hit_or_stand():
         elif statement == "stand" or statement == "s":
             return 0
         else:
-            print("Invalid choice. Try again.")
+            print("Invalid choice. Please choose 'hit' or 'stand'.")
 
+def dealer_show():
+    global dealercardstring
+    global dealerhandvisual
+    dealerhandvisual = ""
+    for i in range(len(dealer_hand)):
+        dealercardstring = str(dealer_hand[i][0]) + "" + str(dealer_hand[i][1])
+        dealerhandvisual = dealerhandvisual + "  " + dealercardstring
+    show_player_hands(f"\nDealers Cards ({len(dealer_hand)}):\n{dealerhandvisual}")
+    print("Dealer hand total value:", check_sum(dealer_hand), "\n")
 chips = 10
 # Run main program
 while True:
@@ -152,37 +161,44 @@ while True:
 
     while betting == 1:
         if hit_or_stand() == 1:
+            print("*** Player will be dealt another card ***")
+            time.sleep(1)
             deal_to_player()
             if check_sum(player_hand) > 21:
-                print("Player bust")
-                print("Dealer wins")
+                print("Player bust.")
+                print("Dealer wins.")
                 break
         else:
             print("Player hand total value:", check_sum(player_hand))
             while True:
-                print("Dealer hand total value:", check_sum(dealer_hand))
+                dealerhandvisual = ""
+                dealer_show()
                 if check_sum(dealer_hand) >= 17:
-                    print("Dealer has to stand at", check_sum(dealer_hand))
+                    print("Dealer has to stand at", check_sum(dealer_hand),".")
                     time.sleep(1)
                     if check_sum(player_hand) > check_sum(dealer_hand):
-                        print(f"Player wins {bet_amount} chips")
+                        print(f"Player wins {bet_amount} chips.")
                         chips = chips + 2*bet_amount
                         betting = 0
                         break
                     elif check_sum(player_hand) < check_sum(dealer_hand):
-                        print(f"Dealer wins. Player loses {bet_amount} chips")
+                        print(f"Dealer wins. Player loses {bet_amount} chips.")
                         betting = 0
                         break
                     elif check_sum(player_hand) == check_sum(dealer_hand):
-                        print("It is a draw")
+                        print("It is a draw.")
                         betting = 0
                         chips = chips + bet_amount
                         break
                 elif check_sum(dealer_hand) < 17:
+                    print("*** Dealer will be dealt another card ***")
+                    time.sleep(1)
                     draw_card(dealer_hand, cards)
                     if check_sum(dealer_hand) >= 21:
-                        print("Dealer bust")
-                        print(f"Player wins {bet_amount} chips")
+                        print("")
+                        print("Dealer hand total value:", check_sum(dealer_hand))
+                        print("Dealer bust.")
+                        print(f"Player wins {bet_amount} chips.")
                         chips = chips + 2 * bet_amount
                         betting = 0
                         break
@@ -194,10 +210,14 @@ while True:
         print("You are out of chips. Game over.")
         break
     else:
-        playagain = input("Do you wish to play again?\n\n>").lower()
-        if playagain == "y" or playagain == "yes":
-            betting = 1
-        elif playagain == "n" or playagain == "no":
-            betting = 0
-        else:
-            print("Invalid choice. Try again.")
+        while True:
+            playagain = input("Do you wish to play again? (y/n)\n\n>").lower()
+            if playagain == "y" or playagain == "yes":
+                betting = 1
+                break
+            elif playagain == "n" or playagain == "no":
+                betting = 0
+                break
+            else:
+                print("Invalid choice. Please choose 'yes' or 'no'.")
+                continue
