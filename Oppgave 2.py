@@ -28,25 +28,9 @@ def draw_card(to_inv, _cards):
     to_inv.append(_cards.pop())
 
 # ___ Show hands ___
-# print hands in a readable format for users
+# print hands
 def show_player_hands(hand):
     print(hand)
-    """
-    for i in range(len(hand)):
-        rank, suit = hand[i]
-        if rank != 10:
-            print(f"┌─────┐\n"
-                  f"│{rank}    │\n"
-                  f"│  {suit}  │\n"
-                  f"│   {rank} │\n"
-                  f"└─────┘")
-        else:
-            print(f"┌─────┐\n"
-                  f"│{rank}   │\n"
-                  f"│  {suit}  │\n"
-                  f"│   {rank}│\n"
-                  f"└─────┘")
-    """
 
 # ___ Check sum ___
 # Check the total sum the cards in a hand
