@@ -1,8 +1,7 @@
 # imports
 import random
 import time
-from tabnanny import check
-
+import os
 
 # -----------------------------------------------------------------------------------------------------------------------
 
@@ -54,17 +53,18 @@ def show_player_hands(hand):
 # Check the total sum the cards in a hand
 def check_sum(hand):
     total_sum = 0
+    global ace_amount
     for i in range(len(hand)):
         rank, suit = hand[i]
-        ace_amount = 0
         invface = {"A": 11, "J": 10, "Q": 10, "K": 10}
         if rank in invface:
             rank = invface[rank]
         if rank == 11:
             ace_amount += 1
         total_sum = total_sum + rank
-        if total_sum > 21 and ace_amount > 0:
-            total_sum -= 10
+    if total_sum > 21 and ace_amount >= 1:
+        total_sum -= 10
+        ace_amount -= 1
     return total_sum
 
 # ___ Placing bet ___
@@ -97,10 +97,13 @@ def initialize_game():
     global dealer_hand
     global chips
     global cards
+    global ace_amount
     player_hand = []
     dealer_hand = []
     cards = create_new_deck()
     shuffle_deck(cards)
+    ace_amount = 0
+    clear_console()
     print("\n___ Welcome to Blackjack ___\n")
 
 # ___ Deal to player ___
@@ -127,6 +130,7 @@ def hit_or_stand():
         else:
             print("Invalid choice. Please choose 'hit' or 'stand'.")
 
+# ___ Dealer Show Cards ___
 def dealer_show():
     global dealercardstring
     global dealerhandvisual
@@ -136,10 +140,16 @@ def dealer_show():
         dealerhandvisual = dealerhandvisual + "  " + dealercardstring
     show_player_hands(f"\nDealers Cards ({len(dealer_hand)}):\n{dealerhandvisual}")
     print("Dealer hand total value:", check_sum(dealer_hand), "\n")
+
+# ___ Clear Console ___
+def clear_console():
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+
+# Player is given 10 chips as the program begins
 chips = 10
+
 # Run main program
 while True:
-
     # initialize game parameters
     initialize_game()
 
@@ -157,8 +167,13 @@ while True:
     draw_card(player_hand, cards)   # First card dealt to Player
     deal_to_player()                # Second card dealt to player, and formatting shown in console
 
-    betting = 1
-
+    if check_sum(player_hand) == 21:
+        print(f"BlackJack")
+        print(f"Player wins {2 * bet_amount} chips.")
+        chips = chips + 3 * bet_amount
+        betting = 0
+    else:
+        betting = 1
     while betting == 1:
         if hit_or_stand() == 1:
             print("*** Player will be dealt another card ***")
@@ -194,9 +209,8 @@ while True:
                     print("*** Dealer will be dealt another card ***")
                     time.sleep(1)
                     draw_card(dealer_hand, cards)
-                    if check_sum(dealer_hand) >= 21:
-                        print("")
-                        print("Dealer hand total value:", check_sum(dealer_hand))
+                    if check_sum(dealer_hand) > 21:
+                        dealer_show()
                         print("Dealer bust.")
                         print(f"Player wins {bet_amount} chips.")
                         chips = chips + 2 * bet_amount
